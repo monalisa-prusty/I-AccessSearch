@@ -1,0 +1,25 @@
+﻿@model IAccessSearch.Models.TSearchString
+
+@{
+    ViewData["Title"] = "CreateData";
+}
+<hr />
+<div class="row">    
+        <form asp-action="CreateData">
+            <b> Click on Create button to insert data into Table</b>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+       </form>    
+</div>
+
+<div>
+    <a asp-action="SearchData">Go to Search Data</a>
+    <hr />
+        @ViewData["CreateMsg"].ToString()
+    <hr />
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

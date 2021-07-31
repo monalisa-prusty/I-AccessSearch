@@ -1,0 +1,117 @@
+﻿@using System.Text.RegularExpressions;
+@using System.Web;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+
+@model IPagedList<IAccessSearch.Models.TSearchStringView>
+
+@{
+    ViewData["Title"] = "SearchData";
+}
+
+<h1>Please enter the criteria to search </h1>
+<br />
+
+@using (Html.BeginForm("SearchData", "Home", FormMethod.Post))
+{
+    <table align="left" width="100%">
+        <tr>
+            <td width="15%">
+                @Html.TextBox("search", ViewData["SearchString"])
+            </td>
+            <td width="10%">
+                <input class="btn btn-primary" type="submit" name="submit" value="Search Data" />
+            </td>
+            <td width="75%">&nbsp;</td>
+        </tr>
+    </table>    
+}
+
+@if (Model.Count != 0)
+{
+    <table class="table table-borderless" align="left">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" width="100%">
+                    <div class="alert-danger"> Searching Data for &nbsp; &nbsp; <b><u> @ViewData["SearchString"] </u></b> </div>
+                </th>
+            </tr>
+        </thead>
+    </table>
+
+    <br />
+    <table class="table table-bordered" align="left">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col" width="10%" valign="middle">
+                    <div class="alert-heading" valign="middle">Go to Page</div>
+                </th>
+                <th scope="col" width="90%" valign="middle">
+                    <div class="alert-heading" valign="middle"> <b> @Html.PagedListPager(Model, page => Url.Action("SearchData", "Home", new { page, search = ViewData["SearchString"] })) </b> </div>
+                </th>
+            </tr>
+        </thead>
+    </table>
+
+    <table class="table table-borderless" align="left">
+        <thead>
+            <tr>
+                <th scope="col" width="100%" align="right">
+                    <div class="alert-info">
+                        <b> Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount </b>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+    </table>
+}
+
+<br />
+
+<table class="table table-striped table-bordered" align="left">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col" width="10%">
+                @Html.DisplayNameFor(model => model.First().ID)
+            </th>
+            <th scope="col" width="85%">
+                @Html.DisplayNameFor(model => model.First().Content)
+            </th>
+            <th scope="col" width="5%">
+                @Html.DisplayNameFor(model => model.First().MatchNo)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Count == 0)
+        {
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <div class="text-break"> No Data to be shown</div>
+                </td>
+                <td>
+                </td>
+            </tr>
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID)
+                </td>
+                <td>
+                    <div class="text-break">
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MatchNo)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
